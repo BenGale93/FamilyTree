@@ -30,3 +30,7 @@ def test_person_addition(my_test_fam):
 
 def test_members_are_persons(my_test_fam):
     assert all([isinstance(p, family_tree.Person) for p in my_test_fam.members])
+
+
+def test_index_access(my_test_fam):
+    assert isinstance(my_test_fam[0], family_tree.Person)

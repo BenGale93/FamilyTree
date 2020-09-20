@@ -11,6 +11,9 @@ class Family:
     def __len__(self) -> int:
         return len(self.members)
 
+    def __getitem__(self, key) -> Person:
+        return self.members[key]
+
     def add_person(self, person: Person):
         if person not in self.members:
             self.members.append(person)
