@@ -3,6 +3,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional, Union
 
+import pandas as pd
+
 
 class Person:
     def __init__(
@@ -25,32 +27,21 @@ class Person:
         return f"Person({self.__dict__})"
 
     @property
-    def dob(self) -> datetime:
+    def dob(self) -> pd.Timestamp:
         return self._dob
 
     @dob.setter
     def dob(self, value: object) -> None:
-        self._dob = self._date_setter(value)
+        self._dob = pd.to_datetime(value)
 
     @property
-    def dod(self) -> datetime:
+    def dod(self) -> pd.Timestamp:
         return self._dod
 
     @dod.setter
     def dod(self, value: object) -> None:
-        self._dod = self._date_setter(value)
+        self._dod = pd.to_datetime(value)
 
     @classmethod
     def from_dict(cls, in_dict: dict) -> Person:
         return cls(in_dict["name"], in_dict["dob"], in_dict["dod"])
-
-    @staticmethod
-    def _date_setter(date: object) -> Union[datetime, None]:
-        if isinstance(date, str):
-            return datetime.strptime(date, "%Y-%m-%d")
-        elif isinstance(date, datetime):
-            return date
-        elif date is None:
-            return date
-        else:
-            raise ValueError("Invalid date format provided.")

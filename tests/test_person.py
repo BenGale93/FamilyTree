@@ -52,5 +52,4 @@ def test_person_repr(john_doe):
 
 
 def test_dob_is_date(john_doe):
-    john_doe.dod = None
     assert isinstance(john_doe.dob, datetime)
