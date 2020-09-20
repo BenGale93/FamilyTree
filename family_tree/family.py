@@ -21,6 +21,11 @@ class Family:
         return self._couples
 
     def add_person(self, new_person: Person) -> None:
+        """Adds a new person to the family. Also checks if they are in a couple.
+
+        Args:
+            new_person (Person): Person to be added to the family.
+        """
         if new_person not in self.members:
             self._update_couples(new_person)
             self.members.append(new_person)
@@ -33,6 +38,14 @@ class Family:
 
     @classmethod
     def from_json(cls, filepath: str) -> Family:
+        """Creates a Family from a json file.
+
+        Args:
+            filepath (str): Location of the json.
+
+        Returns:
+            Family: An instance of Family.
+        """
         family = cls()
         with open(filepath) as f:
             family_json = json.load(f)

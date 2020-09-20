@@ -16,6 +16,16 @@ class Person:
         spouses: Optional[List[str]] = None,
         birth_place: Optional[str] = None,
     ) -> None:
+        """Creates a Person instance.
+
+        Args:
+            name (str): Full name.
+            dob (Optional[Union[datetime, str]]): Date of Birth. Defaults to None.
+            dod (Optional[Union[datetime, str]]): Date of Death. Defaults to None.
+            parents (Optional[List[str]]): List of parental names. Defaults to None.
+            spouses (Optional[List[str]]): List of spousal names. Defaults to None.
+            birth_place (Optional[str]). Defaults to None.
+        """
         self.name = name
         self.dob = dob
         self.dod = dod
