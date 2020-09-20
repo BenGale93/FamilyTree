@@ -43,3 +43,8 @@ def test_couple_added(my_test_fam):
 def test_couple_membership(my_test_fam):
     new_couple = family_tree.Couple(my_test_fam[0], my_test_fam[1])
     assert my_test_fam.couples[0] == new_couple
+
+
+def test_iterate_over_family(my_test_fam):
+    for person in my_test_fam:
+        assert isinstance(person, family_tree.Person)
