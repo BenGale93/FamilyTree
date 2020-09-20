@@ -2,11 +2,24 @@
     {
         "name": "John Doe",
         "dob": "1993-10-19",
-        "dod": null
+        "dod": null,
+        "parents": [
+            "Bob Doe",
+            "Wendy Smith"
+        ],
+        "spouses": [
+            "Jane Jones"
+        ],
+        "birth_place": "London"
     },
     {
-        "name": "Jane Doe",
+        "name": "Jane Jones",
         "dob": "1996-04-28",
-        "dod": null
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "John Doe"
+        ],
+        "birth_place": null
     }
 ]
