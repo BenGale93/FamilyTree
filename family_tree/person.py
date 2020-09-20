@@ -6,14 +6,9 @@ from typing import Optional
 
 class Person:
     def __init__(
-        self,
-        first_name: str,
-        last_name: str,
-        dob: Optional[datetime] = None,
-        dod: Optional[datetime] = None,
+        self, name: str, dob: Optional[datetime] = None, dod: Optional[datetime] = None
     ) -> None:
-        self.first_name = first_name
-        self.last_name = last_name
+        self.name = name
         self.dob = dob
         self.dod = dod
 
@@ -21,13 +16,11 @@ class Person:
         return self.__dict__ == o.__dict__
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.name}: {self.dob}"
 
     def __repr__(self) -> str:
         return f"Person({self.__dict__})"
 
     @classmethod
     def from_dict(cls, in_dict: dict) -> Person:
-        return cls(
-            in_dict["first_name"], in_dict["last_name"], in_dict["dob"], in_dict["dod"]
-        )
+        return cls(in_dict["name"], in_dict["dob"], in_dict["dod"])

@@ -1,13 +1,11 @@
 [
     {
-        "first_name": "Benjamin",
-        "last_name": "Gale",
+        "name": "John Doe",
         "dob": "1993-10-19",
         "dod": null
     },
     {
-        "first_name": "Scarlett",
-        "last_name": "Askew",
+        "name": "Jane Doe",
         "dob": "1996-04-28",
         "dod": null
     }
