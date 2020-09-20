@@ -26,10 +26,7 @@ def john_doe(john_doe_data) -> family_tree.Person:
 
 
 def test_only_name():
-    person_data = {
-        "first_name": "John",
-        "last_name": "Doe",
-    }
+    person_data = {"first_name": "John", "last_name": "Doe"}
 
     john_doe = family_tree.Person(**person_data)
     assert (john_doe.first_name == person_data["first_name"]) & (

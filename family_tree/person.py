@@ -29,8 +29,5 @@ class Person:
     @classmethod
     def from_dict(cls, in_dict: dict) -> Person:
         return cls(
-            in_dict["first_name"],
-            in_dict["last_name"],
-            in_dict["dob"],
-            in_dict["dod"],
+            in_dict["first_name"], in_dict["last_name"], in_dict["dob"], in_dict["dod"]
         )
