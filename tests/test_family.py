@@ -34,3 +34,12 @@ def test_members_are_persons(my_test_fam):
 
 def test_index_access(my_test_fam):
     assert isinstance(my_test_fam[0], family_tree.Person)
+
+
+def test_couple_added(my_test_fam):
+    assert len(my_test_fam.couples) == 1
+
+
+def test_couple_membership(my_test_fam):
+    new_couple = family_tree.Couple(my_test_fam[0], my_test_fam[1])
+    assert my_test_fam.couples[0] == new_couple
