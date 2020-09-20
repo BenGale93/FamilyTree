@@ -1,4 +1,4 @@
-from family_tree.person import Person
+from family_tree import Person
 
 
 class Couple:
