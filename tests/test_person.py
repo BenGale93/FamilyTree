@@ -16,7 +16,7 @@ def john_doe_data() -> dict:
 
 def test_person_create(john_doe_data):
     john_doe = family_tree.Person(**john_doe_data)
-    assert john_doe.__dict__ == john_doe_data
+    assert isinstance(john_doe, family_tree.Person)
 
 
 @pytest.fixture
@@ -49,3 +49,8 @@ def test_person_string(john_doe):
 
 def test_person_repr(john_doe):
     assert isinstance(repr(john_doe), str)
+
+
+def test_dob_is_date(john_doe):
+    john_doe.dod = None
+    assert isinstance(john_doe.dob, datetime)

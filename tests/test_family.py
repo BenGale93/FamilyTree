@@ -23,7 +23,7 @@ def test_no_duplicates(my_test_fam):
 
 
 def test_person_addition(my_test_fam):
-    test_person = family_tree.Person("John", "Doe", datetime(1990, 1, 1))
+    test_person = family_tree.Person("John Doe", datetime(1990, 1, 1))
     my_test_fam.add_person(test_person)
     assert len(my_test_fam) == 3
 
