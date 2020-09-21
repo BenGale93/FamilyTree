@@ -67,33 +67,3 @@ def test_person_repr(john_doe):
 
 def test_dob_is_date(john_doe):
     assert isinstance(john_doe.dob, datetime)
-
-
-def test_hash_same(john_doe):
-    person_set = {john_doe}
-    person_set.add(john_doe)
-    assert len(person_set) == 1
-
-
-def test_hash_diff(john_doe, jane_doe):
-    person_set = {john_doe}
-    person_set.add(jane_doe)
-    assert len(person_set) == 2
-
-
-def test_hash_no_dob():
-    james_doe = family_tree.Person("James Doe")
-    person_set = {james_doe}
-    person_set.add(james_doe)
-    assert len(person_set) == 1
-
-
-def test_set_membership_false(john_doe, jane_doe):
-    person_set = {john_doe}
-    assert (jane_doe in person_set) is False
-
-
-def test_set_membership_true(john_doe, jane_doe):
-    person_set = {john_doe}
-    person_set.add(jane_doe)
-    assert (jane_doe in person_set) is True

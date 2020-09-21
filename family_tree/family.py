@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import json
-from typing import List
+from typing import Dict
 
 from family_tree import Person, Couple
 
 
 class Family:
-    members = []
-    _couples = []
+    members = {}
+    _couples = {}
 
     def __len__(self) -> int:
         return len(self.members)
@@ -16,8 +16,11 @@ class Family:
     def __getitem__(self, key) -> Person:
         return self.members[key]
 
+    def __setitem__(self, key, item) -> Person:
+        self.members[key] = item
+
     @property
-    def couples(self) -> List[Couple]:
+    def couples(self) -> Dict[str:Couple]:
         return self._couples
 
     def add_person(self, new_person: Person) -> None:
@@ -26,15 +29,15 @@ class Family:
         Args:
             new_person (Person): Person to be added to the family.
         """
-        if new_person not in self.members:
+        if new_person.name not in self.members.keys():
             self._update_couples(new_person)
-            self.members.append(new_person)
+            self.members[new_person.name] = new_person
 
     def _update_couples(self, new_person) -> None:
-        for person in self.members:
+        for person in self.members.values():
             if new_person.name in person.spouses:
                 new_couple = Couple(person, new_person)
-                self._couples.append(new_couple)
+                self._couples[str(new_couple)] = new_couple
 
     @classmethod
     def from_json(cls, filepath: str) -> Family:

@@ -48,33 +48,3 @@ def second_couple(john_doe) -> family_tree.Couple:
 
 def test_couple_string(example_couple):
     assert isinstance(str(example_couple), str)
-
-
-def test_hash_same_couple_same(example_couple):
-    couple_set = {example_couple}
-    couple_set.add(example_couple)
-    assert len(couple_set) == 1
-
-
-def test_hash_same_couple_swap(example_couple, john_doe, jane_doe):
-    couple_set = {example_couple}
-    new_couple = family_tree.Couple(jane_doe, john_doe)
-    couple_set.add(new_couple)
-    assert len(couple_set) == 1
-
-
-def test_hash_diff(example_couple, second_couple):
-    couple_set = {example_couple}
-    couple_set.add(second_couple)
-    assert len(couple_set) == 2
-
-
-def test_set_membership_false(example_couple, second_couple):
-    couple_set = {example_couple}
-    assert (second_couple in couple_set) is False
-
-
-def test_set_membership_true(example_couple, second_couple):
-    couple_set = {example_couple}
-    couple_set.add(second_couple)
-    assert (second_couple in couple_set) is True

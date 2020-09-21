@@ -36,9 +36,6 @@ class Person:
     def __eq__(self, o: object) -> bool:
         return self.__dict__ == o.__dict__
 
-    def __hash__(self) -> int:
-        return hash(self.name + str(self.dob))
-
     def __str__(self) -> str:
         return f"Name: {self.name}, DoB: {self.dob}."
 

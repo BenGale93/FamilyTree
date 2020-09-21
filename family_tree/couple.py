@@ -17,11 +17,8 @@ class Couple:
             (self.left == o.right) & (self.right == o.left)
         )
 
-    def __hash__(self) -> int:
-        return hash(self.left) + hash(self.right)
-
     def __str__(self) -> str:
-        return f"{self.left} & {self.right}"
+        return f"{self.left.name} & {self.right.name}"
 
     def __repr__(self) -> str:
         return repr(self.left) + repr(self.right)
