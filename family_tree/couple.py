@@ -22,3 +22,6 @@ class Couple:
 
     def __str__(self) -> str:
         return f"{self.left} & {self.right}"
+
+    def __repr__(self) -> str:
+        return repr(self.left) + repr(self.right)
