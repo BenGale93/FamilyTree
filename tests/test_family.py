@@ -17,7 +17,7 @@ def test_family_from_json(my_test_fam):
 
 
 def test_no_duplicates(my_test_fam):
-    my_test_fam.add_person(my_test_fam["Jane Jones"])
+    my_test_fam.add_person(my_test_fam["JJ1996"])
     assert len(my_test_fam) == 2
 
 
@@ -38,7 +38,7 @@ def test_couple_added(my_test_fam):
 
 
 def test_couple_membership(my_test_fam):
-    couple = my_test_fam.couples["JD1993 & JJ1996"]
+    couple = my_test_fam.couples["JD1993 JJ1996"]
     new_couple = family_tree.Couple(couple.left, couple.right)
     assert couple == new_couple
 

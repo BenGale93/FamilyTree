@@ -21,14 +21,13 @@ class Couple:
             (self.left == o.right) & (self.right == o.left)
         )
 
-    def __str__(self) -> str:
-        return f"{self.left.identifier} & {self.right.identifier}"
-
     def __repr__(self) -> str:
-        return repr(self.left) + repr(self.right)
+        output = [self.left.identifier, self.right.identifier]
+        output.sort()
+        return " ".join(output)
 
     def __contains__(self, other: object) -> bool:
-        if not isinstance(object, Person):
+        if not isinstance(other, Person):
             return False
         return (other == self.left) | (other == self.right)
 
