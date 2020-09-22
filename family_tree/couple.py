@@ -22,3 +22,6 @@ class Couple:
 
     def __repr__(self) -> str:
         return repr(self.left) + repr(self.right)
+
+    def __contains__(self, target: Person) -> bool:
+        return (target == self.left) | (target == self.right)

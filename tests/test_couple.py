@@ -46,16 +46,28 @@ def example_couple(john_doe, jane_doe) -> family_tree.Couple:
 
 
 @pytest.fixture
-def second_couple(john_doe) -> family_tree.Couple:
+def emily_doe() -> family_tree.Person:
     emily_doe_data = {
         "identifier": "ED1990",
         "name": "Emily Doe",
         "dob": datetime(1990, 2, 28),
         "dod": None,
     }
-    emily_doe = family_tree.Person(**emily_doe_data)
+    return family_tree.Person(**emily_doe_data)
+
+
+@pytest.fixture
+def second_couple(john_doe, emily_doe) -> family_tree.Couple:
     return family_tree.Couple(john_doe, emily_doe)
 
 
 def test_couple_string(example_couple):
     assert isinstance(str(example_couple), str)
+
+
+def test_contains_true(example_couple, john_doe):
+    assert john_doe in example_couple
+
+
+def test_contains_false(example_couple, emily_doe):
+    assert emily_doe not in example_couple
