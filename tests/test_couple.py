@@ -101,3 +101,11 @@ def test_set_membership_true(example_couple, second_couple):
     couple_set = {example_couple}
     couple_set.add(second_couple)
     assert (second_couple in couple_set) is True
+
+
+def test_return_other(example_couple, jane_doe, john_doe):
+    assert example_couple.return_other(jane_doe) == john_doe
+
+
+def test_failed_to_return(example_couple, emily_doe):
+    assert example_couple.return_other(emily_doe) is None
