@@ -7,24 +7,14 @@ import family_tree
 
 @pytest.fixture
 def john_doe() -> family_tree.Person:
-    john_doe_data = {
-        "identifier": "JD1990",
-        "name": "John Doe",
-        "dob": datetime(1990, 1, 1),
-        "dod": datetime(2020, 1, 1),
-    }
-    return family_tree.Person(**john_doe_data)
+    return family_tree.Person(
+        "JD1990", "John Doe", datetime(1990, 1, 1), datetime(2020, 1, 1)
+    )
 
 
 @pytest.fixture
 def jane_doe() -> family_tree.Person:
-    jane_doe_data = {
-        "identifier": "JD1992",
-        "name": "Jane Doe",
-        "dob": datetime(1992, 2, 19),
-        "dod": None,
-    }
-    return family_tree.Person(**jane_doe_data)
+    return family_tree.Person("JD1992", "Jane Doe", datetime(1992, 2, 19), None)
 
 
 def test_equality(john_doe, jane_doe):
@@ -47,13 +37,7 @@ def example_couple(john_doe, jane_doe) -> family_tree.Couple:
 
 @pytest.fixture
 def emily_doe() -> family_tree.Person:
-    emily_doe_data = {
-        "identifier": "ED1990",
-        "name": "Emily Doe",
-        "dob": datetime(1990, 2, 28),
-        "dod": None,
-    }
-    return family_tree.Person(**emily_doe_data)
+    return family_tree.Person("ED1990", "Emily Doe", datetime(1992, 2, 28), None)
 
 
 @pytest.fixture
