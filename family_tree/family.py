@@ -58,3 +58,7 @@ class Family:
             family.add_person(person)
 
         return family
+
+    def to_graph_dict(self, focus: Person) -> dict:
+        graph = {}
+        graph[focus.identifier] = []

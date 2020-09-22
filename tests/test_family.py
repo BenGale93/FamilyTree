@@ -38,7 +38,7 @@ def test_couple_added(my_test_fam):
 
 
 def test_couple_membership(my_test_fam):
-    couple = my_test_fam.couples["John Doe & Jane Jones"]
+    couple = my_test_fam.couples["JD1993 & JJ1996"]
     new_couple = family_tree.Couple(couple.left, couple.right)
     assert couple == new_couple
 

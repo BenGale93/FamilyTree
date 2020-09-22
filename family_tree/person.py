@@ -45,6 +45,9 @@ class Person:
     def __repr__(self) -> str:
         return f"{self.identifier}"
 
+    def __hash__(self) -> int:
+        return hash(self.identifier)
+
     @property
     def dob(self) -> pd.Timestamp:
         return self._dob

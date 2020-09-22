@@ -18,10 +18,13 @@ class Couple:
         )
 
     def __str__(self) -> str:
-        return f"{self.left.name} & {self.right.name}"
+        return f"{self.left.identifier} & {self.right.identifier}"
 
     def __repr__(self) -> str:
         return repr(self.left) + repr(self.right)
 
     def __contains__(self, target: Person) -> bool:
         return (target == self.left) | (target == self.right)
+
+    def __hash__(self) -> int:
+        return hash(self.left) + hash(self.right)
