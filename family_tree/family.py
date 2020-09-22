@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from family_tree import Person, Couple
 
@@ -64,7 +64,7 @@ class Family:
             person: self._add_to_graph_dict(person) for person in self.members.values()
         }
 
-    def _add_to_graph_dict(self, focus: Person) -> List:
+    def _add_to_graph_dict(self, focus: Person) -> List[Tuple[Person, str]]:
         links = []
         for couple in self.couples.values():
             spouse = couple.return_other(focus)
