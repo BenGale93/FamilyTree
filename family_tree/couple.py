@@ -1,3 +1,5 @@
+from typing import Union
+
 from family_tree import Person
 
 
@@ -13,6 +15,8 @@ class Couple:
         self.right = right
 
     def __eq__(self, o: object) -> bool:
+        if not isinstance(o, Couple):
+            return False
         return ((self.left == o.left) & (self.right == o.right)) | (
             (self.left == o.right) & (self.right == o.left)
         )
@@ -23,8 +27,15 @@ class Couple:
     def __repr__(self) -> str:
         return repr(self.left) + repr(self.right)
 
-    def __contains__(self, target: Person) -> bool:
-        return (target == self.left) | (target == self.right)
+    def __contains__(self, other: object) -> bool:
+        if not isinstance(object, Person):
+            return False
+        return (other == self.left) | (other == self.right)
 
     def __hash__(self) -> int:
         return hash(self.left) + hash(self.right)
+
+    def return_other(self, target: Person) -> Union[Person, None]:
+        if target not in self:
+            return None
+        return self.left if target == self.right else self.right

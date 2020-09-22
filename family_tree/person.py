@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional, Union, List
 
-import pandas as pd
+import pandas as pd  # type: ignore
 
 
 class Person:
@@ -32,11 +32,13 @@ class Person:
         self.name = name
         self.dob = dob
         self.dod = dod
-        self.parents = parents
-        self.spouses = spouses
+        self.parents: List[str] = parents if parents else []
+        self.spouses: List[str] = spouses if spouses else []
         self.birth_place = birth_place
 
     def __eq__(self, o: object) -> bool:
+        if not isinstance(o, Person):
+            return False
         return self.identifier == o.identifier
 
     def __str__(self) -> str:
