@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import json
-from typing import Dict
+from typing import Dict, List
 
 from family_tree import Person, Couple
 
 
 class Family:
-    members = {}
-    _couples = {}
+    members: Dict[str, Person] = {}
+    _couples: Dict[str, Couple] = {}
 
     def __len__(self) -> int:
         return len(self.members)
@@ -16,11 +16,11 @@ class Family:
     def __getitem__(self, key) -> Person:
         return self.members[key]
 
-    def __setitem__(self, key, item) -> Person:
+    def __setitem__(self, key: str, item: Person) -> None:
         self.members[key] = item
 
     @property
-    def couples(self) -> Dict[str:Couple]:
+    def couples(self) -> Dict[str, Couple]:
         return self._couples
 
     def add_person(self, new_person: Person) -> None:
@@ -31,7 +31,7 @@ class Family:
         """
         if new_person.name not in self.members.keys():
             self._update_couples(new_person)
-            self.members[new_person.name] = new_person
+            self.members[new_person.identifier] = new_person
 
     def _update_couples(self, new_person) -> None:
         for person in self.members.values():
@@ -59,6 +59,20 @@ class Family:
 
         return family
 
-    def to_graph_dict(self, focus: Person) -> dict:
-        graph = {}
-        graph[focus.identifier] = []
+    def to_graph_dict(self) -> Dict[Person, List]:
+        return {
+            person: self._add_to_graph_dict(person) for person in self.members.values()
+        }
+
+    def _add_to_graph_dict(self, focus: Person) -> List:
+        links = []
+        for couple in self.couples.values():
+            spouse = couple.return_other(focus)
+            if spouse:
+                links.append((spouse, "spouse"))
+
+        for person in self.members.values():
+            if person.name in focus.parents:
+                links.append((person, "parent"))
+
+        return links
