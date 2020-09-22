@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Dict
 
-from family_tree import Person, Couple
+from family_tree import Person, Couple, FamilyList
 
 
 class Family:
@@ -58,3 +58,6 @@ class Family:
             family.add_person(person)
 
         return family
+
+    def linked_list(self, focus: Person) -> FamilyList:
+        pass

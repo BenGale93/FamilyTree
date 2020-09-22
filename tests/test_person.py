@@ -8,6 +8,7 @@ import family_tree
 @pytest.fixture
 def john_doe_data() -> dict:
     return {
+        "identifier": "JD1990",
         "name": "John Doe",
         "dob": datetime(1990, 1, 1),
         "dod": datetime(2020, 1, 1),
@@ -17,6 +18,7 @@ def john_doe_data() -> dict:
 @pytest.fixture
 def jane_doe_data() -> dict:
     return {
+        "identifier": "JD21990",
         "name": "Jane Doe",
         "dob": datetime(1990, 1, 1),
         "dod": datetime(2020, 1, 1),
@@ -39,7 +41,7 @@ def john_doe(john_doe_data) -> family_tree.Person:
 
 
 def test_only_name():
-    person_data = {"name": "John Doe"}
+    person_data = {"identifier": "JD", "name": "John Doe"}
 
     john_doe = family_tree.Person(**person_data)
     assert john_doe.name == person_data["name"]
@@ -53,7 +55,7 @@ def test_equality(john_doe_data):
 
 def test_inequality(john_doe_data):
     john_first = family_tree.Person(**john_doe_data)
-    john_second = family_tree.Person(john_doe_data["name"])
+    john_second = family_tree.Person("JD2", john_doe_data["name"])
     assert john_first != john_second
 
 

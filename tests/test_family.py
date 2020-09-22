@@ -22,7 +22,7 @@ def test_no_duplicates(my_test_fam):
 
 
 def test_person_addition(my_test_fam):
-    test_person = family_tree.Person("James Doe", datetime(1990, 1, 1))
+    test_person = family_tree.Person("JD21990", "James Doe", datetime(1990, 1, 1))
     my_test_fam.add_person(test_person)
     assert len(my_test_fam) == 3
 
@@ -44,5 +44,5 @@ def test_couple_membership(my_test_fam):
 
 
 def test_iterate_over_family(my_test_fam):
-    for key, person in my_test_fam.members.items():
+    for _, person in my_test_fam.members.items():
         assert isinstance(person, family_tree.Person)

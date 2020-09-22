@@ -9,6 +9,7 @@ import pandas as pd
 class Person:
     def __init__(
         self,
+        identifier: str,
         name: str,
         dob: Optional[Union[datetime, str]] = None,
         dod: Optional[Union[datetime, str]] = None,
@@ -19,6 +20,7 @@ class Person:
         """Creates a Person instance.
 
         Args:
+            identifier (str): Unique identifier.
             name (str): Full name.
             dob (Optional[Union[datetime, str]]): Date of Birth. Defaults to None.
             dod (Optional[Union[datetime, str]]): Date of Death. Defaults to None.
@@ -26,6 +28,7 @@ class Person:
             spouses (Optional[List[str]]): List of spousal names. Defaults to None.
             birth_place (Optional[str]). Defaults to None.
         """
+        self.identifier = identifier
         self.name = name
         self.dob = dob
         self.dod = dod
@@ -34,13 +37,13 @@ class Person:
         self.birth_place = birth_place
 
     def __eq__(self, o: object) -> bool:
-        return self.__dict__ == o.__dict__
+        return self.identifier == o.identifier
 
     def __str__(self) -> str:
         return f"Name: {self.name}, DoB: {self.dob}."
 
     def __repr__(self) -> str:
-        return f"Person({self.__dict__})"
+        return f"{self.identifier}"
 
     @property
     def dob(self) -> pd.Timestamp:
