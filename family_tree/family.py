@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Dict, List, Tuple
+from typing import Dict, List, Iterator, KeysView, Tuple, ItemsView, ValuesView
 
 from family_tree import Person, Couple, constants
 
@@ -18,6 +18,18 @@ class Family:
 
     def __setitem__(self, key: str, item: Person) -> None:
         self.members[key] = item
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self.members)
+
+    def keys(self) -> KeysView[str]:
+        return self.members.keys()
+
+    def items(self) -> ItemsView[str, Person]:
+        return self.members.items()
+
+    def values(self) -> ValuesView[Person]:
+        return self.members.values()
 
     @property
     def couples(self) -> Dict[str, Couple]:
