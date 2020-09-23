@@ -69,17 +69,18 @@ class Person:
     def shape(self) -> Tuple:
         widths = []
         height = 0
-        for key in self.__dict__:
-            attribute = getattr(self, key)
+        for key, attribute in self.__dict__.items():
             if isinstance(attribute, str):
-                widths.append(len(str(attribute)))
+                widths.append(len(str(key) + str(attribute)))
                 height += 1
             elif isinstance(attribute, pd.Timestamp):
-                widths.append(len(str(attribute.date())))
+                widths.append(len(str(key).lstrip("_") + str(attribute.date())))
                 height += 1
             elif isinstance(attribute, list):
-                widths.append(max(len(name) for name in attribute))
-                height += len(attribute)
+                if attribute:
+                    widths.append(max(len(name) for name in attribute))
+                    # + 1 for string of "parents" or "spouses"
+                    height += len(attribute) + 1
 
         width = max(widths)
         return (height, width)
