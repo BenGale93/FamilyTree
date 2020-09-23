@@ -1,0 +1,26 @@
+[
+    {
+        "identifier": "JD1993",
+        "name": "John Doe",
+        "dob": "1993-10-19",
+        "dod": null,
+        "parents": [
+            "Bob Doe",
+            "Wendy Smith"
+        ],
+        "spouses": [
+            "Jane Jones"
+        ]
+    },
+    {
+        "identifier": "JJ1996",
+        "name": "Jane Jones",
+        "dob": "1996-04-28",
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "John Doe"
+        ],
+        "birth_place": null
+    }
+]

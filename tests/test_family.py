@@ -4,12 +4,12 @@ import pytest
 
 import family_tree
 
-LOCATION = "tests/data/test_family.json"
+LOCATION = "tests/data/"
 
 
 @pytest.fixture
 def my_test_fam() -> family_tree.Family:
-    return family_tree.Family.from_json(LOCATION)
+    return family_tree.Family.from_json(f"{LOCATION}test_family.json")
 
 
 def test_family_from_json(my_test_fam):
@@ -46,3 +46,13 @@ def test_couple_membership(my_test_fam):
 def test_iterate_over_family(my_test_fam):
     for _, person in my_test_fam.members.items():
         assert isinstance(person, family_tree.Person)
+
+
+def test_json_validate_fail_keys():
+    with pytest.raises(KeyError):
+        family_tree.Family.from_json(f"{LOCATION}invalid_fields.json")
+
+
+def test_json_validate_fail_identifier():
+    with pytest.raises(KeyError):
+        family_tree.Family.from_json(f"{LOCATION}invalid_id.json")

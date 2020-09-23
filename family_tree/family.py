@@ -39,26 +39,6 @@ class Family:
                 new_couple = Couple(person, new_person)
                 self._couples[str(new_couple)] = new_couple
 
-    @classmethod
-    def from_json(cls, filepath: str) -> Family:
-        """Creates a Family from a json file.
-
-        Args:
-            filepath (str): Location of the json.
-
-        Returns:
-            Family: An instance of Family.
-        """
-        family = cls()
-        with open(filepath) as f:
-            family_json = json.load(f)
-
-        for person_json in family_json:
-            person = Person(**person_json)
-            family.add_person(person)
-
-        return family
-
     def to_graph_dict(self) -> Dict[Person, List]:
         return {
             person: self._add_to_graph_dict(person) for person in self.members.values()
@@ -76,3 +56,39 @@ class Family:
                 links.append((person, "parent"))
 
         return links
+
+    @classmethod
+    def from_json(cls, filepath: str) -> Family:
+        """Creates a Family from a json file.
+
+        Args:
+            filepath (str): Location of the json.
+
+        Returns:
+            Family: An instance of Family.
+        """
+        family = cls()
+        with open(filepath) as f:
+            family_json = json.load(f)
+
+        _validate_json(family_json)
+
+        for person_json in family_json:
+            person = Person(**person_json)
+            family.add_person(person)
+
+        return family
+
+
+def _validate_json(json: List[Dict[str, str]]) -> None:
+    expected_keys = set(
+        ["birth_place", "dob", "dod", "identifier", "name", "parents", "spouses"]
+    )
+    identifiers = set()
+    for item in json:
+        if item.keys() != expected_keys:
+            raise KeyError("JSON Keys do not match expected keys.")
+        identifiers.add(item["identifier"])
+
+    if len(identifiers) != len(json):
+        raise KeyError("Not all identifier values in the JSON are unique.")
