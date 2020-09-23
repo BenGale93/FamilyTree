@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional, Union, List, Tuple
+from typing import Optional, Union, List, Tuple, Dict
 
 import pandas as pd  # type: ignore
 
@@ -71,10 +71,10 @@ class Person:
         height = 0
         for key, attribute in self.__dict__.items():
             if isinstance(attribute, str):
-                widths.append(len(str(key) + str(attribute)))
+                widths.append(len(key + ": " + attribute))
                 height += 1
             elif isinstance(attribute, pd.Timestamp):
-                widths.append(len(str(key).lstrip("_") + str(attribute.date())))
+                widths.append(len(key.lstrip("_") + ": " + str(attribute.date())))
                 height += 1
             elif isinstance(attribute, list):
                 if attribute:
@@ -84,3 +84,20 @@ class Person:
 
         width = max(widths)
         return (height, width)
+
+    def info(self) -> Dict[str, str]:
+        info = {}
+        for key, attribute in self.__dict__.items():
+            if key == "identifier":
+                continue
+            elif isinstance(attribute, str):
+                output = attribute
+            elif isinstance(attribute, pd.Timestamp):
+                output = str(attribute.date())
+            elif isinstance(attribute, list):
+                output = "\n".join(attribute)
+            else:
+                continue
+            info[key.lstrip("_")] = output
+
+        return info

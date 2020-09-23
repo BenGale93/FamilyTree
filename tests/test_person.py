@@ -108,4 +108,4 @@ def test_set_membership_true(john_doe, jane_doe):
 
 
 def test_shape(my_test_fam):
-    assert my_test_fam.members["JD1993"].shape() == (7, 11)
+    assert my_test_fam.members["JD1993"].shape() == (9, 19)
