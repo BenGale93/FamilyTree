@@ -3,8 +3,7 @@ from datetime import datetime
 import pytest
 
 import family_tree
-
-LOCATION = "tests/data/"
+from . import LOCATION
 
 
 @pytest.fixture

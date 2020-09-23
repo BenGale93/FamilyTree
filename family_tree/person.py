@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Tuple
 
 import pandas as pd  # type: ignore
 
@@ -65,3 +65,21 @@ class Person:
     @dod.setter
     def dod(self, value: object) -> None:
         self._dod = pd.to_datetime(value)
+
+    def shape(self) -> Tuple:
+        widths = []
+        height = 0
+        for key in self.__dict__:
+            attribute = getattr(self, key)
+            if isinstance(attribute, str):
+                widths.append(len(str(attribute)))
+                height += 1
+            elif isinstance(attribute, pd.Timestamp):
+                widths.append(len(str(attribute.date())))
+                height += 1
+            elif isinstance(attribute, list):
+                widths.append(max(len(name) for name in attribute))
+                height += len(attribute)
+
+        width = max(widths)
+        return (height, width)

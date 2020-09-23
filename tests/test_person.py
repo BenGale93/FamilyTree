@@ -3,6 +3,12 @@ from datetime import datetime
 import pytest
 
 import family_tree
+from . import LOCATION
+
+
+@pytest.fixture
+def my_test_fam() -> family_tree.Family:
+    return family_tree.Family.from_json(f"{LOCATION}test_family.json")
 
 
 @pytest.fixture
@@ -99,3 +105,7 @@ def test_set_membership_true(john_doe, jane_doe):
     person_set = {john_doe}
     person_set.add(jane_doe)
     assert (jane_doe in person_set) is True
+
+
+def test_shape(my_test_fam):
+    assert my_test_fam.members["JD1993"].shape() == (7, 11)
