@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Dict, List, Tuple
 
-from family_tree import Person, Couple
+from family_tree import Person, Couple, constants
 
 
 class Family:
@@ -81,12 +81,9 @@ class Family:
 
 
 def _validate_json(json: List[Dict[str, str]]) -> None:
-    expected_keys = set(
-        ["birth_place", "dob", "dod", "identifier", "name", "parents", "spouses"]
-    )
     identifiers = set()
     for item in json:
-        if item.keys() != expected_keys:
+        if item.keys() != constants.EXPECTED_KEYS:
             raise KeyError("JSON Keys do not match expected keys.")
         identifiers.add(item["identifier"])
 
