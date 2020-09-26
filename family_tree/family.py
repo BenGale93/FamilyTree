@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+
 from typing import Dict, List, Iterator, KeysView, Tuple, ItemsView, ValuesView
 
 from family_tree import Person, Couple, constants
@@ -13,7 +14,7 @@ class Family:
     def __len__(self) -> int:
         return len(self.members)
 
-    def __getitem__(self, key) -> Person:
+    def __getitem__(self, key: str) -> Person:
         return self.members[key]
 
     def __setitem__(self, key: str, item: Person) -> None:
@@ -45,13 +46,13 @@ class Family:
             self._update_couples(new_person)
             self.members[new_person.identifier] = new_person
 
-    def _update_couples(self, new_person) -> None:
+    def _update_couples(self, new_person: Person) -> None:
         for person in self.members.values():
             if new_person.name in person.spouses:
                 new_couple = Couple(person, new_person)
                 self._couples[str(new_couple)] = new_couple
 
-    def to_graph_dict(self) -> Dict[Person, List]:
+    def to_graph_dict(self) -> Dict[Person, List[Tuple[Person, str]]]:
         return {
             person: self._add_to_graph_dict(person) for person in self.members.values()
         }

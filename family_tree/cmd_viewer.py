@@ -1,6 +1,7 @@
+import itertools
 import math
 
-from family_tree import Person
+from family_tree import Person, Couple
 
 
 def person_box(person: Person) -> str:
@@ -19,8 +20,7 @@ def person_box(person: Person) -> str:
         else:
             lines.append(surround_bars(f"{key}: {value}", width))
 
-    lines.append(blank_line)
-    lines.append(top_bottom)
+    lines.extend([blank_line, top_bottom])
 
     return "".join(lines)
 
@@ -32,3 +32,17 @@ def surround_bars(string: str, width: int) -> str:
     right_whitespace = " " * math.ceil((space_needed / 2))
 
     return "| " + left_whitespace + string + right_whitespace + " |\n"
+
+
+def couple_box(couple: Couple) -> str:
+    boxes = [person_box(couple.left), person_box(couple.right)]
+    split_boxes = [box.split("\n") for box in boxes]
+    split_boxes.sort(key=len, reverse=True)
+
+    output = []
+    for left, right in itertools.zip_longest(*split_boxes):
+        if not right:
+            right = ""
+        output.extend([left, "  ", right, "\n"])
+
+    return "".join(output)

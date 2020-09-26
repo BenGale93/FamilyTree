@@ -55,18 +55,18 @@ class Person:
         return self._dob
 
     @dob.setter
-    def dob(self, value: object) -> None:
-        self._dob = pd.to_datetime(value)
+    def dob(self, value: object) -> None:  # type: ignore
+        self._dob: pd.Timestamp = pd.to_datetime(value)  # type: ignore
 
     @property
     def dod(self) -> pd.Timestamp:
         return self._dod
 
     @dod.setter
-    def dod(self, value: object) -> None:
-        self._dod = pd.to_datetime(value)
+    def dod(self, value: object) -> None:  # type: ignore
+        self._dod: pd.Timestamp = pd.to_datetime(value)  # type: ignore
 
-    def shape(self) -> Tuple:
+    def shape(self) -> Tuple[int, int]:
         widths = []
         height = 0
         for key, attribute in self.__dict__.items():
@@ -78,9 +78,9 @@ class Person:
                 height += 1
             elif isinstance(attribute, list):
                 if attribute:
-                    widths.append(max(len(name) for name in attribute))
+                    widths.append(max(len(name) for name in attribute))  # type: ignore
                     # + 1 for string of "parents" or "spouses"
-                    height += len(attribute) + 1
+                    height += len(attribute) + 1  # type: ignore
 
         width = max(widths)
         return (height, width)
@@ -95,7 +95,7 @@ class Person:
             elif isinstance(attribute, pd.Timestamp):
                 output = str(attribute.date())
             elif isinstance(attribute, list):
-                output = "\n".join(attribute)
+                output = "\n".join(attribute)  # type: ignore
             else:
                 continue
             info[key.lstrip("_")] = output
