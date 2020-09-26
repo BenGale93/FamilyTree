@@ -2,27 +2,30 @@ from family_tree import Person
 
 
 def person_box(person: Person) -> str:
-    lines = ["<b>Name</b>"]
+    lines = []
 
-    if len(names := person.name.split(" ")) == 4:
-        lines.append(" ".join(names[:2]))
-        lines.append(" ".join(names[2:]))
-    elif len(names) == 3:
-        lines.append(" ".join(names[:-1]))
-        lines.append(names[-1])
+    if len(names := person.name.split(" ")) > 2:
+        if len(names) == 4:
+            start_name = " ".join(names[:2])
+            end_name = " ".join(names[2:])
+        else:
+            start_name = " ".join(names[:-1])
+            end_name = names[-1]
+
+        start = f"<b>{start_name}"
+        end = f"{end_name}</b>"
+
+        lines.extend([start, end])
     else:
-        lines.append(person.name)
+        lines.append(f"<b>{person.name}</b>")
 
     if person.dob:
-        lines.append("<b>DoB</b>")
-        lines.append(str(person.dob.date()))
+        lines.append(person.dob_string())
 
     if person.dod:
-        lines.append("<b>DoD</b>")
-        lines.append(str(person.dod.date()))
+        lines.append(person.dod_string())
 
     if person.birth_place:
-        lines.append("<b>Place of Birth</b>")
         lines.append(person.birth_place)
 
     return "<br/>".join(lines)

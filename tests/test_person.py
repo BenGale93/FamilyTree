@@ -128,7 +128,3 @@ def test_set_membership_true(
     person_set = {john_doe}
     person_set.add(jane_doe)
     assert (jane_doe in person_set) is True
-
-
-def test_shape(my_test_fam: family_tree.Family):
-    assert my_test_fam.members["JD1993"].shape() == (9, 19)

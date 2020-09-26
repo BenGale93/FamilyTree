@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Optional, Union, List
 
 import pandas as pd  # type: ignore
 
@@ -66,38 +66,8 @@ class Person:
     def dod(self, value: object) -> None:  # type: ignore
         self._dod: pd.Timestamp = pd.to_datetime(value)  # type: ignore
 
-    def shape(self) -> Tuple[int, int]:
-        widths = []
-        height = 0
-        for key, attribute in self.__dict__.items():
-            if isinstance(attribute, str):
-                widths.append(len(key + ": " + attribute))
-                height += 1
-            elif isinstance(attribute, pd.Timestamp):
-                widths.append(len(key.lstrip("_") + ": " + str(attribute.date())))
-                height += 1
-            elif isinstance(attribute, list):
-                if attribute:
-                    widths.append(max(len(name) for name in attribute))  # type: ignore
-                    # + 1 for string of "parents" or "spouses"
-                    height += len(attribute) + 1  # type: ignore
+    def dob_string(self) -> str:
+        return f"b. {str(self.dob.date())}"
 
-        width = max(widths)
-        return (height, width)
-
-    def info(self) -> Dict[str, str]:
-        info = {}
-        for key, attribute in self.__dict__.items():
-            if key == "identifier":
-                continue
-            elif isinstance(attribute, str):
-                output = attribute
-            elif isinstance(attribute, pd.Timestamp):
-                output = str(attribute.date())
-            elif isinstance(attribute, list):
-                output = "\n".join(attribute)  # type: ignore
-            else:
-                continue
-            info[key.lstrip("_")] = output
-
-        return info
+    def dod_string(self) -> str:
+        return f"b. {str(self.dod.date())}"

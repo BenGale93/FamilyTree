@@ -42,13 +42,13 @@ class Family:
         Args:
             new_person (Person): Person to be added to the family.
         """
-        if new_person.name not in self.members.keys():
+        if new_person.identifier not in self.members.keys():
             self._update_couples(new_person)
             self.members[new_person.identifier] = new_person
 
     def _update_couples(self, new_person: Person) -> None:
         for person in self.members.values():
-            if new_person.name in person.spouses:
+            if new_person.identifier in person.spouses:
                 new_couple = Couple(person, new_person)
                 self._couples[str(new_couple)] = new_couple
 

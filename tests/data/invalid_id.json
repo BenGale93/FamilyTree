@@ -4,12 +4,9 @@
         "name": "John Doe",
         "dob": "1993-10-19",
         "dod": null,
-        "parents": [
-            "Bob Doe",
-            "Wendy Smith"
-        ],
+        "parents": [],
         "spouses": [
-            "Jane Jones"
+            "JD1993"
         ],
         "birth_place": "London"
     },
@@ -20,7 +17,7 @@
         "dod": null,
         "parents": [],
         "spouses": [
-            "John Doe"
+            "JD1993"
         ],
         "birth_place": null
     }
