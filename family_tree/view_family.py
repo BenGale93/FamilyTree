@@ -4,14 +4,13 @@ from family_tree import Family, Person, Couple
 
 
 class FamilyGraph:
-    dot = Graph(
-        name="My Family",
-        graph_attr={"layout": "neato", "overlap": "scale"},
-        strict=True,
-    )  # type: ignore
-
-    def __init__(self, family: Family) -> None:
+    def __init__(self, family: Family, layout: str) -> None:
         self.family = family
+        self.dot = Graph(  # type: ignore
+            name="My Family",
+            graph_attr={"layout": layout, "overlap": "scale"},
+            strict=True,
+        )
 
     def render_family(self) -> None:
         for person in self.family.values():
@@ -47,15 +46,10 @@ class FamilyGraph:
     def _couple_connection(self, couple: Couple) -> None:
         self._dummy_node(str(couple))
         for person in [couple.left, couple.right]:
-            self.dot.edge(  # type: ignore
-                person.identifier,
-                str(couple),
-                color="red",
-                len="0.05",
-            )
+            self.dot.edge(person.identifier, str(couple), color="red")  # type: ignore
 
     def _relative_edge(self, tail: str, head: str) -> None:
-        self.dot.edge(tail, head, len="0.06")  # type: ignore
+        self.dot.edge(tail, head)  # type: ignore
 
     def _link_parents(self, person: Person) -> None:
         num_parents = len(person.parents)
