@@ -5,5 +5,4 @@ from .person import Person
 from .couple import Couple
 from .family import Family
 
-from . import cmd_viewer
-from .view_family import render_family
+from .view_family import FamilyGraph

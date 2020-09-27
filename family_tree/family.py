@@ -81,7 +81,7 @@ class Family:
             Family: An instance of Family.
         """
         family = cls()
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             family_json = json.load(f)
 
         _validate_json(family_json)
