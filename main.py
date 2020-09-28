@@ -1,5 +1,5 @@
-import family_tree
+from family_tree import Family, FamilyGraph
 
-my_family = family_tree.Family.from_json("family.json")
-
-print(my_family.to_graph_dict())
+my_family = Family.from_json("family.json")
+family_graph = FamilyGraph(my_family, "dot")
+family_graph.render_family()

@@ -4,24 +4,40 @@ from family_tree import Family, Person, Couple
 
 
 class FamilyGraph:
+    dummy_node_attrs = {
+        "shape": "point",
+        "style": "invis",
+        "height": "0",
+        "width": "0",
+        "margin": "0",
+    }
+
     def __init__(self, family: Family, layout: str) -> None:
         self.family = family
         self.dot = Graph(  # type: ignore
             name="My Family",
-            graph_attr={"layout": layout, "overlap": "scale"},
+            graph_attr={
+                "layout": layout,
+                "concentrate": "true",
+                "overlap": "scale",
+            },
             strict=True,
         )
 
     def render_family(self) -> None:
         for person in self.family.values():
-            self._person_node(person)
+            add_node = True
+            for entry in self.dot.body:  # type: ignore
+                if f"\t{person.identifier} [" in entry:
+                    add_node = False
+                    break
+            if add_node:
+                self._person_node(person)
+            if person.parents:
+                self._link_parents(person)
 
         for couple in self.family.couples.values():
             self._couple_connection(couple)
-
-        for person in self.family.values():
-            if person.parents:
-                self._link_parents(person)
 
         self.dot.render(view=True)  # type: ignore
 
@@ -34,19 +50,21 @@ class FamilyGraph:
         )
 
     def _dummy_node(self, combined_id: str) -> None:
-        self.dot.node(  # type: ignore
-            combined_id,
-            shape="point",
-            style="invis",
-            height="0",
-            width="0",
-            margin="0",
-        )
+        self.dot.node(combined_id, **self.dummy_node_attrs)  # type: ignore
 
     def _couple_connection(self, couple: Couple) -> None:
-        self._dummy_node(str(couple))
-        for person in [couple.left, couple.right]:
-            self.dot.edge(person.identifier, str(couple), color="red")  # type: ignore
+        with self.dot.subgraph() as c:  # type: ignore
+            c.attr(rank="same")  # type: ignore
+            c.node(str(couple), **self.dummy_node_attrs)  # type: ignore
+            for person in [couple.left, couple.right]:
+                c.node(  # type: ignore
+                    person.identifier,
+                    label="<" + person.to_html() + ">",
+                    shape="rectangle",
+                    color="black",
+                )
+            c.edge(couple.left.identifier, str(couple), color="red")  # type: ignore
+            c.edge(str(couple), couple.right.identifier, color="red")  # type: ignore
 
     def _relative_edge(self, tail: str, head: str) -> None:
         self.dot.edge(tail, head)  # type: ignore
