@@ -14,7 +14,7 @@ class FamilyGraph:
 
     def __init__(self, family: Family, layout: str) -> None:
         self.family = family
-        self.dot = Graph(  # type: ignore
+        self.graph = Graph(  # type: ignore
             name="My Family",
             graph_attr={
                 "layout": layout,
@@ -23,11 +23,15 @@ class FamilyGraph:
             },
             strict=True,
         )
+        self._link_family()
 
-    def render_family(self) -> None:
+    def _link_family(self) -> None:
+        for couple in self.family.couples.values():
+            self._couple_connection(couple)
+
         for person in self.family.values():
             add_node = True
-            for entry in self.dot.body:  # type: ignore
+            for entry in self.graph.body:  # type: ignore
                 if f"\t{person.identifier} [" in entry:
                     add_node = False
                     break
@@ -36,13 +40,11 @@ class FamilyGraph:
             if person.parents:
                 self._link_parents(person)
 
-        for couple in self.family.couples.values():
-            self._couple_connection(couple)
-
-        self.dot.render(view=True)  # type: ignore
+    def render_family(self) -> None:
+        self.graph.render(view=True)  # type: ignore
 
     def _person_node(self, person: Person) -> None:
-        self.dot.node(  # type: ignore
+        self.graph.node(  # type: ignore
             person.identifier,
             label="<" + person.to_html() + ">",
             shape="rectangle",
@@ -50,10 +52,10 @@ class FamilyGraph:
         )
 
     def _dummy_node(self, combined_id: str) -> None:
-        self.dot.node(combined_id, **self.dummy_node_attrs)  # type: ignore
+        self.graph.node(combined_id, **self.dummy_node_attrs)  # type: ignore
 
     def _couple_connection(self, couple: Couple) -> None:
-        with self.dot.subgraph() as c:  # type: ignore
+        with self.graph.subgraph() as c:  # type: ignore
             c.attr(rank="same")  # type: ignore
             c.node(str(couple), **self.dummy_node_attrs)  # type: ignore
             for person in [couple.left, couple.right]:
@@ -67,7 +69,7 @@ class FamilyGraph:
             c.edge(str(couple), couple.right.identifier, color="red")  # type: ignore
 
     def _relative_edge(self, tail: str, head: str) -> None:
-        self.dot.edge(tail, head)  # type: ignore
+        self.graph.edge(tail, head)  # type: ignore
 
     def _link_parents(self, person: Person) -> None:
         num_parents = len(person.parents)
