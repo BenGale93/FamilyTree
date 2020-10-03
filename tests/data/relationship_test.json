@@ -1,0 +1,86 @@
+[
+    {
+        "identifier": "G1A",
+        "name": "Generation 1",
+        "dob": null,
+        "dod": null,
+        "parents": [
+            "G2A",
+            "G2B"
+        ],
+        "spouses": [],
+        "birth_place": null
+    },
+    {
+        "identifier": "G2A",
+        "name": "Generation 2 A",
+        "dob": null,
+        "dod": null,
+        "parents": [
+            "G3A",
+            "G3B"
+        ],
+        "spouses": [
+            "G2B"
+        ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G2B",
+        "name": "Generation 2 B",
+        "dob": null,
+        "dod": null,
+        "parents": [
+            "G3C",
+            "G3D"
+        ],
+        "spouses": [
+            "G2A"
+        ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G3A",
+        "name": "Generation 3 A",
+        "dob": null,
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "G3B"
+        ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G3B",
+        "name": "Generation 3 B",
+        "dob": null,
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "G3A"
+        ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G3C",
+        "name": "Generation 3 C",
+        "dob": null,
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "G3D"
+        ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G3D",
+        "name": "Generation 3 D",
+        "dob": null,
+        "dod": null,
+        "parents": [],
+        "spouses": [
+            "G3C"
+        ],
+        "birth_place": null
+    }
+]

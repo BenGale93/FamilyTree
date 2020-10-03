@@ -1,10 +1,20 @@
 from __future__ import annotations
 
 import json
+from itertools import zip_longest
+from typing import (
+    Dict,
+    ItemsView,
+    Iterator,
+    KeysView,
+    List,
+    Set,
+    Tuple,
+    Union,
+    ValuesView,
+)
 
-from typing import Dict, List, Iterator, KeysView, Tuple, ItemsView, ValuesView
-
-from family_tree import Person, Couple, constants
+from family_tree import Couple, Person, constants
 
 
 class Family:
@@ -91,6 +101,71 @@ class Family:
             family.add_person(person)
 
         return family
+
+    def relationship(self, first_id: str, second_id: str) -> str:
+        first_person = self.members[first_id]
+        second_person = self.members[second_id]
+
+        first_ancestors = [set(gen) for gen in self._ancestors(first_person)]
+        second_ancestors = [set(gen) for gen in self._ancestors(second_person)]
+
+        if result := self._parental_check(first_ancestors, second_id, "Parent"):
+            return result
+
+        if result := self._parental_check(second_ancestors, first_id, "Child"):
+            return result
+
+        for index_f, gen_f in enumerate(first_ancestors):
+            for index_s, gen_s in enumerate(second_ancestors):
+                common = gen_f.intersection(gen_s)
+                if common:
+                    return constants.RELATION_MATRIX[index_f][index_s]
+
+        return "Not related by blood"
+
+    def _ancestors(self, person: Person) -> List[List[Union[str]]]:
+        ancestors = []
+        if not person.parents:
+            # Base case
+            return []
+        else:
+            # Add parents to the start of the ancestor list
+            ancestors.append(person.parents)
+            for count, parent in enumerate(person.parents):
+                # If more ancestors exist, continue
+                if result := self._ancestors(self.members[parent]):
+                    # If we are on the second parent, continue
+                    if count == 1:
+                        final_result = []  # Empty list for parents ancestors
+                        # Blends the two ancestor lists together
+                        for side1, side2 in zip_longest(
+                            ancestors[1:], result, fillvalue=[]
+                        ):
+                            final_result.append(side1 + side2)
+                        # Take only the parents
+                        ancestors = [ancestors[0]]
+                        # Extend parents by new ancestor list
+                        ancestors.extend(final_result)
+                    else:
+                        # If on first parent, just extend by their ancestors
+                        ancestors.extend(result)
+
+        return ancestors
+
+    def _parental_check(
+        self, ancestors: List[Set[Union[str]]], identifier: str, relation: str
+    ) -> Union[str, None]:
+        for gen_i, people in enumerate(ancestors):
+            if identifier in people:
+                if gen_i == 0:
+                    return relation
+                elif gen_i == 1:
+                    return "Grand-" + relation
+                else:
+                    return "Great " * (gen_i - 1) + "Grand-" + relation
+
+        else:
+            return None
 
 
 def _validate_json(json: List[Dict[str, str]]) -> None:
