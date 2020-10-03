@@ -70,7 +70,7 @@ class Person:
         return f"b. {str(self.dob.date())}"
 
     def dod_string(self) -> str:
-        return f"b. {str(self.dod.date())}"
+        return f"d. {str(self.dod.date())}"
 
     def to_html(self) -> str:
         lines = []
