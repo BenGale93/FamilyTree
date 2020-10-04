@@ -1,7 +1,19 @@
 [
     {
         "identifier": "G1A",
-        "name": "Generation 1",
+        "name": "Generation 1 A",
+        "dob": null,
+        "dod": null,
+        "parents": [
+            "G2A",
+            "G2B"
+        ],
+        "spouses": [],
+        "birth_place": null
+    },
+    {
+        "identifier": "G1B",
+        "name": "Generation 1 B",
         "dob": null,
         "dod": null,
         "parents": [
@@ -37,6 +49,18 @@
         "spouses": [
             "G2A"
         ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G2C",
+        "name": "Generation 2 C",
+        "dob": null,
+        "dod": null,
+        "parents": [
+            "G3C",
+            "G3D"
+        ],
+        "spouses": [],
         "birth_place": null
     },
     {
@@ -77,10 +101,21 @@
         "name": "Generation 3 D",
         "dob": null,
         "dod": null,
-        "parents": [],
+        "parents": [
+            "G4A"
+        ],
         "spouses": [
             "G3C"
         ],
+        "birth_place": null
+    },
+    {
+        "identifier": "G4A",
+        "name": "Generation 4 A",
+        "dob": null,
+        "dod": null,
+        "parents": [],
+        "spouses": [],
         "birth_place": null
     }
 ]
