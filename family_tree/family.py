@@ -27,6 +27,11 @@ class Family:
 
     Note:
         Iterating over the instance actually iterates over the members dict.
+
+    Example:
+        Access a specific person using a dictionary like look up with their unique
+        identifier. For example, "JJ1990" could be accessed on an instance family
+        as: family["JJ1990"].
     """
 
     members: Dict[str, Person] = {}
