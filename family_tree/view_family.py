@@ -1,10 +1,18 @@
+"""This module contains the class used to build and view the family graph."""
 from graphviz import Graph  # type: ignore
 
 from family_tree import Family, Person, Couple
 
 
 class FamilyGraph:
-    dummy_node_attrs = {
+    """Class for creating Family Graphs.
+
+    Attributes:
+        family (Family): Instance of the Family class.
+        graph (Graph): Instance of the Graph class from graphviz.
+    """
+
+    _dummy_node_attrs = {
         "shape": "point",
         "style": "invis",
         "height": "0",
@@ -13,6 +21,12 @@ class FamilyGraph:
     }
 
     def __init__(self, family: Family, layout: str) -> None:
+        """Initialises the FamilyGraph object.
+
+        Args:
+            family: The family to be viewed.
+            layout: The graphviz layout option.
+        """
         self.family = family
         self.graph = Graph(  # type: ignore
             name="My Family",
@@ -25,7 +39,12 @@ class FamilyGraph:
         )
         self._link_family()
 
+    def render_family(self) -> None:
+        """Produces My Family.gv and My Family.gv.pdf files."""
+        self.graph.render(view=True)  # type: ignore
+
     def _link_family(self) -> None:
+        """Creates the linkages between each member of the family."""
         for couple in self.family.couples.values():
             self._couple_connection(couple)
 
@@ -40,10 +59,8 @@ class FamilyGraph:
             if person.parents:
                 self._link_parents(person)
 
-    def render_family(self) -> None:
-        self.graph.render(view=True)  # type: ignore
-
     def _person_node(self, person: Person) -> None:
+        """For adding a node containing a persons key info."""
         self.graph.node(  # type: ignore
             person.identifier,
             label="<" + person.to_html() + ">",
@@ -52,12 +69,14 @@ class FamilyGraph:
         )
 
     def _dummy_node(self, combined_id: str) -> None:
-        self.graph.node(combined_id, **self.dummy_node_attrs)  # type: ignore
+        """For creating empty nodes for linking purposes."""
+        self.graph.node(combined_id, **self._dummy_node_attrs)  # type: ignore
 
     def _couple_connection(self, couple: Couple) -> None:
+        """Connects a couple using two edges and a intermediate dummy node."""
         with self.graph.subgraph() as c:  # type: ignore
             c.attr(rank="same")  # type: ignore
-            c.node(str(couple), **self.dummy_node_attrs)  # type: ignore
+            c.node(str(couple), **self._dummy_node_attrs)  # type: ignore
             for person in [couple.left, couple.right]:
                 c.node(  # type: ignore
                     person.identifier,
@@ -69,9 +88,11 @@ class FamilyGraph:
             c.edge(str(couple), couple.right.identifier, color="red")  # type: ignore
 
     def _relative_edge(self, tail: str, head: str) -> None:
+        """Adds an edge between two blood relatives."""
         self.graph.edge(tail, head)  # type: ignore
 
     def _link_parents(self, person: Person) -> None:
+        """Links parents to their children via a dummy node."""
         num_parents = len(person.parents)
         if num_parents == 1:
             # & is arbitrary, used to make dummy node ID different to person node

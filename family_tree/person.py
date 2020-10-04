@@ -1,3 +1,4 @@
+"""This module contains the Person class used to represent a single person."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -7,6 +8,8 @@ import pandas as pd  # type: ignore
 
 
 class Person:
+    """Represents a single person."""
+
     def __init__(
         self,
         identifier: str,
@@ -67,12 +70,19 @@ class Person:
         self._dod: pd.Timestamp = pd.to_datetime(value)  # type: ignore
 
     def dob_string(self) -> str:
+        """Returns the date of birth as a formatted string."""
         return f"b. {str(self.dob.date())}"
 
     def dod_string(self) -> str:
+        """Returns the date of death as a formatted string."""
         return f"d. {str(self.dod.date())}"
 
     def to_html(self) -> str:
+        """Renders the person's information in html format.
+
+        Returns:
+            html string.
+        """
         lines = []
 
         if len(names := self.name.split(" ")) > 2:

@@ -1,3 +1,4 @@
+"""This module contains the Family class and helper functions."""
 from __future__ import annotations
 
 import json
@@ -18,6 +19,16 @@ from family_tree import Couple, Person, constants
 
 
 class Family:
+    """This class is used to store and process the family information.
+
+    Attributes:
+        members: Dict of all family members currently added.
+        couples: Dict of all the couples in the family.
+
+    Note:
+        Iterating over the instance actually iterates over the members dict.
+    """
+
     members: Dict[str, Person] = {}
     _couples: Dict[str, Couple] = {}
 
@@ -57,17 +68,20 @@ class Family:
             self.members[new_person.identifier] = new_person
 
     def _update_couples(self, new_person: Person) -> None:
+        """Helper function for updating the couples dict."""
         for person in self.members.values():
             if new_person.identifier in person.spouses:
                 new_couple = Couple(person, new_person)
                 self._couples[str(new_couple)] = new_couple
 
     def to_graph_dict(self) -> Dict[Person, List[Tuple[Person, str]]]:
+        """Returns a dictionary of direct family connections."""
         return {
             person: self._add_to_graph_dict(person) for person in self.members.values()
         }
 
     def _add_to_graph_dict(self, focus: Person) -> List[Tuple[Person, str]]:
+        """Helper function for to_graph_dict."""
         links = []
         for couple in self.couples.values():
             spouse = couple.return_other(focus)
@@ -103,11 +117,22 @@ class Family:
         return family
 
     def relationship(self, first_id: str, second_id: str) -> str:
+        """Computes whether the two given identifiers are related by blood.
+        If they are related by blood, returns the specific relationship, up to
+        a point.
+
+        Args:
+            first_id
+            second_id
+
+        Returns:
+            How second_id is related to first_id.
+        """
         first_person = self.members[first_id]
         second_person = self.members[second_id]
 
-        first_ancestors = [set(gen) for gen in self._ancestors(first_person)]
-        second_ancestors = [set(gen) for gen in self._ancestors(second_person)]
+        first_ancestors = self.list_ancestors(first_person)
+        second_ancestors = self.list_ancestors(second_person)
 
         if result := self._parental_check(first_ancestors, second_id, "Parent"):
             return result
@@ -123,7 +148,19 @@ class Family:
 
         return "Not related by blood"
 
+    def list_ancestors(self, person: Person) -> List[Set[Union[str]]]:
+        """List the ancestors of the given person.
+
+        Args:
+            person: Person to list the ancestors for.
+
+        Returns:
+            List of sets where each set is a generation. First set are the parents etc.
+        """
+        return [set(gen) for gen in self._ancestors(person)]
+
     def _ancestors(self, person: Person) -> List[List[Union[str]]]:
+        """Recursive function for listing ancestors."""
         ancestors = []
         if not person.parents:
             # Base case
@@ -155,6 +192,16 @@ class Family:
     def _parental_check(
         self, ancestors: List[Set[Union[str]]], identifier: str, relation: str
     ) -> Union[str, None]:
+        """Checks if the identified person is in the list of ancestors.
+
+        Args:
+            ancestors: List of sets where each set is a generation of ancestors.
+            identifier: Unique identifier of person being checked.
+            relation: Either "Child" or "Parent".
+
+        Returns:
+            relationship string or None.
+        """
         for gen_i, people in enumerate(ancestors):
             if identifier in people:
                 if gen_i == 0:
@@ -169,6 +216,7 @@ class Family:
 
 
 def _validate_json(json: List[Dict[str, str]]) -> None:
+    """Helper function for from_json."""
     identifiers = set()
     for item in json:
         if item.keys() != constants.EXPECTED_KEYS:
