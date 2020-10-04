@@ -49,13 +49,7 @@ class FamilyGraph:
             self._couple_connection(couple)
 
         for person in self.family.values():
-            add_node = True
-            for entry in self.graph.body:  # type: ignore
-                if f"\t{person.identifier} [" in entry:
-                    add_node = False
-                    break
-            if add_node:
-                self._person_node(person)
+            self._person_node(person)
             if person.parents:
                 self._link_parents(person)
 
@@ -73,10 +67,9 @@ class FamilyGraph:
         self.graph.node(combined_id, **self._dummy_node_attrs)  # type: ignore
 
     def _couple_connection(self, couple: Couple) -> None:
-        """Connects a couple using two edges and a intermediate dummy node."""
+        """Connects a couple."""
         with self.graph.subgraph() as c:  # type: ignore
             c.attr(rank="same")  # type: ignore
-            c.node(str(couple), **self._dummy_node_attrs)  # type: ignore
             for person in [couple.left, couple.right]:
                 c.node(  # type: ignore
                     person.identifier,
@@ -84,8 +77,7 @@ class FamilyGraph:
                     shape="rectangle",
                     color="black",
                 )
-            c.edge(couple.left.identifier, str(couple), color="red")  # type: ignore
-            c.edge(str(couple), couple.right.identifier, color="red")  # type: ignore
+            c.edge(couple.left.identifier, couple.right.identifier, color="red")  # type: ignore
 
     def _relative_edge(self, tail: str, head: str) -> None:
         """Adds an edge between two blood relatives."""
@@ -93,14 +85,14 @@ class FamilyGraph:
 
     def _link_parents(self, person: Person) -> None:
         """Links parents to their children via a dummy node."""
-        num_parents = len(person.parents)
-        if num_parents == 1:
+        if len(person.parents) == 1:
             # & is arbitrary, used to make dummy node ID different to person node
             comb_id = f"{person.parents[0]}&"
-            self._relative_edge(person.parents[0], comb_id)
         else:
             comb_id = "".join(sorted(person.parents))
-            self._relative_edge(" ".join(sorted(person.parents)), comb_id)
+
+        for parent in person.parents:
+            self._relative_edge(parent, comb_id)
 
         self._dummy_node(comb_id)
         self._relative_edge(comb_id, person.identifier)
